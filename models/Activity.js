@@ -8,7 +8,7 @@ const activitySchema = new Schema(
       type: String,
       required: true,
     },
-    qty: {
+    type: {
       type: String,
       required: true,
     },
