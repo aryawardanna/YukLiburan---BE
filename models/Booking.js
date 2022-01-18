@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -11,20 +11,32 @@ const bookingSchema = new Schema({
     type: Date,
     required: true,
   },
+  invoice: {
+    type: Date,
+    required: true,
+  },
   itemId: {
     _id: {
       type: Schema.Types.ObjectId,
       ref: 'Item',
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
     },
-    night: {
+    duration: {
       type: Number,
       required: true,
     },
+  },
+  total: {
+    type: Number,
+    required: true,
   },
   memberId: {
     type: Schema.Types.ObjectId,
@@ -34,25 +46,23 @@ const bookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Bank',
   },
-  proofPayment: {
-    type: String,
-    required: true,
-  },
-  bankFrom: {
-    type: String,
-    required: true,
-  },
-  accountHolder: {
-    type: String,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
+  payments: {
+    proofPayment: {
+      type: String,
+      required: true,
+    },
+    bankFrom: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    accountHolder: {
+      type: String,
+      required: true,
+    },
   },
 });
 
