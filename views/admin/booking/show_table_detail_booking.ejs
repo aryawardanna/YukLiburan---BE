@@ -12,18 +12,27 @@
           style="width: 100%; display: block"
         />
         <div class="row ml-2 mt-3">
-          <form action="/admin/booking" method="post" class="mr-4">
+          <% if (booking.payments.status == 'Proses') { %>
+          <form
+            action="/admin/booking/<%= booking.id %>/confirmation?_method=PUT"
+            method="post"
+            class="mr-4"
+          >
             <button type="submit" class="btn btn-success btn-check">
               <i class="fas fa-trash"></i>
               Confirmation
             </button>
           </form>
-          <form action="/admin/booking" method="post">
+          <form
+            action="/admin/booking/<%= booking.id %>/reject?_method=PUT"
+            method="post"
+          >
             <button type="submit" class="btn btn-danger btn-check">
               <i class="fas fa-times"></i>
               Reject
             </button>
           </form>
+          <% } %>
         </div>
       </div>
       <div class="col-md-8">
