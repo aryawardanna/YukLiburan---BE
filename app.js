@@ -37,6 +37,7 @@ app.use(flash());
 
 // router
 const adminRouter = require('./routes/admin');
+const apiRouter = require('./routes/api');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -53,6 +54,7 @@ app.use('/users', usersRouter);
 
 // router admin
 app.use('/admin', adminRouter);
+app.use('/api/v1', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
