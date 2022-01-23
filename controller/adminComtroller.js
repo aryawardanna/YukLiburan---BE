@@ -10,6 +10,7 @@ const Member = require('../models/Member');
 const fs = require('fs-extra');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const cloudinary = require('../middleware/cloudinary');
 
 module.exports = {
   viewSignin: async (req, res) => {
@@ -166,12 +167,15 @@ module.exports = {
   addBank: async (req, res) => {
     try {
       const { name, nameBank, nomorRekening } = req.body;
+      // upload image to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path);
       // console.log(req.file);
       await Bank.create({
         name,
         nameBank,
         nomorRekening,
-        imageUrl: `images/${req.file.filename}`,
+        imageUrl: result.secure_url,
+        cloudinary_id: result.public_id,
       });
       req.flash('alertMessage', 'Success Add Bank');
       req.flash('alertStatus', 'success');
@@ -186,6 +190,7 @@ module.exports = {
   editBank: async (req, res) => {
     try {
       const { id, name, nameBank, nomorRekening } = req.body;
+
       const bank = await Bank.findOne({ _id: id });
 
       if (req.file == undefined) {
@@ -197,11 +202,13 @@ module.exports = {
         req.flash('alertStatus', 'warning');
         res.redirect('/admin/bank');
       } else {
-        await fs.unlink(path.join(`public/${bank.imageUrl}`));
+        // Delete image from cloudinary
+        await cloudinary.uploader.destroy(bank.cloudinary_id);
         bank.name = name;
         bank.nameBank = nameBank;
         bank.nomorRekening = nomorRekening;
-        bank.imageUrl = `images/${req.file.filename}`;
+        bank.imageUrl = result.secure_url || bank.imageUrl;
+        bank.cloudinary_id = result.public_id || bank.cloudinary_id;
         await bank.save();
         req.flash('alertMessage', 'Success Update Bank');
         req.flash('alertStatus', 'warning');
@@ -218,7 +225,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const bank = await Bank.findOne({ _id: id });
-      await fs.unlink(path.join(`public/${bank.imageUrl}`));
+      await cloudinary.uploader.destroy(bank.cloudinary_id);
       await bank.remove();
       req.flash('alertMessage', 'Success Delete Bank');
       req.flash('alertStatus', 'danger');

@@ -16,43 +16,51 @@ const path = require('path');
 // });
 
 // Set storage engine
-const storage = multer.diskStorage({
-  destination: 'public/images',
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: 'public/images',
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
 
 const uploadSingle = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 },
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    let ext = path.extname(file.originalname);
+    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+      cb(new Error('File type is not supported'), false);
+      return;
+    }
+    cb(null, true);
   },
 }).single('image');
 
 const uploadMultiple = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 },
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    let ext = path.extname(file.originalname);
+    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+      cb(new Error('File type is not supported'), false);
+      return;
+    }
+    cb(null, true);
   },
 }).array('image');
 
 // // Check file Type
-function checkFileType(file, cb) {
-  // Allowed ext
-  const fileTypes = /jpeg|jpg|png|gif/;
-  // Check ext
-  const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimeType = fileTypes.test(file.mimetype);
+// function checkFileType(file, cb) {
+//   // Allowed ext
+//   const fileTypes = /jpeg|jpg|png|gif/;
+//   // Check ext
+//   const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+//   // Check mime
+//   const mimeType = fileTypes.test(file.mimetype);
 
-  if (mimeType && extName) {
-    return cb(null, true);
-  } else {
-    cb('Error: Images Only !!!');
-  }
-}
+//   if (mimeType && extName) {
+//     return cb(null, true);
+//   } else {
+//     cb('Error: Images Only !!!');
+//   }
+// }
 
 module.exports = { uploadMultiple, uploadSingle };

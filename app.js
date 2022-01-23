@@ -7,10 +7,12 @@ var cors = require('cors');
 const methodOverrride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const dotenv = require('dotenv');
+dotenv.config();
 
 //  import mongoose
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/travel-be', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: true,

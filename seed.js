@@ -14,7 +14,6 @@ seeder.connect(
     // Load Mongoose models
     seeder.loadModels([
       './models/Category',
-      './models/Bank',
       './models/Item',
       './models/Feature',
       './models/Activity',
@@ -29,7 +28,6 @@ seeder.connect(
     seeder.clearModels(
       [
         'Category',
-        'Bank',
         'Item',
         'Member',
         'Item',
@@ -1032,7 +1030,7 @@ var data = [
         },
         total: 12,
         memberId: mongoose.Types.ObjectId('5e96cbe292b97300fc903333'),
-        bankId: mongoose.Types.ObjectId('5e96cbe292b97300fc903323'),
+        bankId: mongoose.Types.ObjectId('61ecd6e75e57b846b8c197fb'),
         payments: {
           proofPayment: 'images/bukti.jpeg',
           bankFrom: 'BCA',
@@ -1061,25 +1059,6 @@ var data = [
         lastName: 'Narayana',
         email: 'elfinsanjaya1207@gmail.com',
         phoneNumber: '082377954008',
-      },
-    ],
-  },
-  {
-    model: 'Bank',
-    documents: [
-      {
-        _id: mongoose.Types.ObjectId('5e96cbe292b97300fc903322'),
-        nameBank: 'Mandiri',
-        nomorRekening: '089898',
-        name: 'arya',
-        imageUrl: 'images/logo bca.png',
-      },
-      {
-        _id: mongoose.Types.ObjectId('5e96cbe292b97300fc903323'),
-        nameBank: 'BCA',
-        nomorRekening: '878678',
-        name: 'arya',
-        imageUrl: 'images/logo mandiri.png',
       },
     ],
   },
