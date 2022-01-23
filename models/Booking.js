@@ -12,7 +12,7 @@ const bookingSchema = new Schema({
     required: true,
   },
   invoice: {
-    type: Date,
+    type: Number,
     required: true,
   },
   itemId: {
@@ -62,6 +62,10 @@ const bookingSchema = new Schema({
     accountHolder: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      default: 'Proses',
     },
   },
 });
